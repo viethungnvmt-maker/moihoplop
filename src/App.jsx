@@ -3,6 +3,47 @@ import { useState } from 'react'
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [name, setName] = useState('');
+  const [attendance, setAttendance] = useState('Tham gia');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // BẠN HÃY DÁN LINK GOOGLE SCRIPT VÀO GIỮA 2 DẤU NHÁY ĐƠN BÊN DƯỚI SAU KHI LÀM XONG BƯỚC TẠO GOOGLE SHEET:
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVBLQc0y95-0Thts5lENwxtMU6zCB0r6ycTQ6mnpYHE1QuxdltsCJ0ZtHdFnbBYdFs/exec';
+
+  const handleSubmit = async () => {
+    if (!name.trim()) {
+      alert('Vui lòng nhập tên Phụ huynh!');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    if (!GOOGLE_SCRIPT_URL) {
+      alert(`Đã nhận thông tin ảo:\n- Tên: ${name}\n- Xác nhận: ${attendance}\n\n(Lưu ý: Bạn cần dán link Google Script vào code để dữ liệu thực sự lưu vào Excel nhé!)`);
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          name: name,
+          attendance: attendance,
+          timestamp: new Date().toLocaleString('vi-VN')
+        })
+      });
+      alert('Đã gửi phản hồi thành công! Cảm ơn Quý Phụ huynh.');
+      setName('');
+    } catch (error) {
+      alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+    }
+    setIsSubmitting(false);
+  };
 
   const handleOpen = () => {
     if (isAnimating || isOpen) return;
@@ -23,23 +64,23 @@ function App() {
         <div className="bg-star star-a">⭐</div>
         <div className="bg-star star-b">⭐</div>
         <div className="bg-heart heart-a">🤍</div>
-        
+
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-image-container">
             <div className="hero-placeholder">
-              <span style={{fontSize: '3rem'}}>🏫</span>
+              <span style={{ fontSize: '3rem' }}>🏫</span>
             </div>
             <div className="hero-caption">Tập thể lớp 2A3 thân yêu</div>
           </div>
-          
+
           <div className="hero-text">
             <div className="academic-year">NĂM HỌC 2024 - 2025</div>
             <h1 className="main-heading">HỌP PHỤ HUYNH</h1>
             <p className="hero-subtext">
               "Sự đồng hành của Gia đình là nền tảng vững chắc cho con đường tương lai của các con!"
             </p>
-            <button className="scroll-down-btn" onClick={() => window.scrollTo({top: 600, behavior: 'smooth'})}>
+            <button className="scroll-down-btn" onClick={() => window.scrollTo({ top: 600, behavior: 'smooth' })}>
               Xem thêm ⬇
             </button>
           </div>
@@ -49,7 +90,7 @@ function App() {
         <section className="info-section">
           <h2 className="section-title">Thông tin buổi họp</h2>
           <div className="title-underline"></div>
-          
+
           <div className="info-grid">
             <div className="info-card">
               <div className="info-icon-wrapper red-bg">📅</div>
@@ -59,16 +100,16 @@ function App() {
                 <span className="info-sub">26 tháng 5 năm 2024</span>
               </div>
             </div>
-            
+
             <div className="info-card">
               <div className="info-icon-wrapper blue-bg">📍</div>
               <div className="info-details">
                 <span className="info-label">Địa điểm</span>
                 <span className="info-value">Phòng D401 - Tin học 1</span>
-                <span className="info-sub">Trường Tiểu học & THCS</span>
+                <span className="info-sub">Trường THCS Trâu Quỳ</span>
               </div>
             </div>
-            
+
             <div className="info-card">
               <div className="info-icon-wrapper yellow-bg">🏫</div>
               <div className="info-details">
@@ -77,7 +118,7 @@ function App() {
                 <span className="info-sub">Phụ huynh học sinh</span>
               </div>
             </div>
-            
+
             <div className="info-card">
               <div className="info-icon-wrapper green-bg">👨‍🏫</div>
               <div className="info-details">
@@ -117,7 +158,7 @@ function App() {
         <section className="timeline-section">
           <h2 className="section-title">Nội dung chính</h2>
           <div className="title-underline"></div>
-          
+
           <div className="timeline">
             <div className="timeline-item left">
               <div className="timeline-content">
@@ -126,7 +167,7 @@ function App() {
               </div>
               <div className="timeline-dot">📚</div>
             </div>
-            
+
             <div className="timeline-item right">
               <div className="timeline-dot">🎯</div>
               <div className="timeline-content">
@@ -134,10 +175,10 @@ function App() {
                 <p>Kế hoạch, phương hướng cho năm học tới. Cùng thảo luận phương pháp giúp các con phát triển.</p>
               </div>
             </div>
-            
+
             <div className="timeline-item left">
               <div className="timeline-content">
-                <h4>Giao lưu phụ huynh</h4>
+                <h4>Phụ huynh chia sẻ</h4>
                 <p>Lắng nghe tâm tư, nguyện vọng từ Phụ huynh để thắt chặt sợi dây liên kết.</p>
               </div>
               <div className="timeline-dot">🤝</div>
@@ -151,32 +192,47 @@ function App() {
             <div className="form-avatar">👨‍👩‍👧‍👦</div>
             <h3 className="form-title">❤️ Xác nhận tham gia</h3>
             <p className="form-subtitle">Rất mong sự hiện diện của Quý Phụ huynh!</p>
-            
+
             <div className="form-group">
               <label>Tên phụ huynh</label>
-              <input type="text" placeholder="Nhập tên của Quý vị..." />
+              <input
+                type="text"
+                placeholder="Nhập tên của Quý vị..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
-            
+
             <div className="form-group">
               <label>Sự kiện tham gia buổi họp</label>
               <div className="radio-group">
                 <label className="radio-btn">
-                  <input type="radio" name="attendance" defaultChecked />
+                  <input
+                    type="radio"
+                    name="attendance"
+                    checked={attendance === 'Tham gia'}
+                    onChange={() => setAttendance('Tham gia')}
+                  />
                   <span className="radio-custom green">✅ Tham gia</span>
                 </label>
                 <label className="radio-btn">
-                  <input type="radio" name="attendance" />
+                  <input
+                    type="radio"
+                    name="attendance"
+                    checked={attendance === 'Không tham gia'}
+                    onChange={() => setAttendance('Không tham gia')}
+                  />
                   <span className="radio-custom red">❌ Không tham gia</span>
                 </label>
               </div>
             </div>
-            
-            <button className="submit-btn" onClick={() => alert('Đã gửi phản hồi thành công!')}>
-              Gửi phản hồi ✨
+
+            <button className="submit-btn" onClick={handleSubmit} disabled={isSubmitting}>
+              {isSubmitting ? 'Đang gửi...' : 'Gửi phản hồi ✨'}
             </button>
           </div>
         </section>
-        
+
         <div className="footer-credits">
           Made with ❤️ for Class 2A3
         </div>
@@ -189,10 +245,10 @@ function App() {
     <div className="cover-container">
       {/* Floating Elements */}
       <div className="floating-element cloud cloud-1">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 17.5C4.01472 17.5 2 15.4853 2 13C2 10.5147 4.01472 8.5 6.5 8.5C6.82155 8.5 7.13524 8.53372 7.43763 8.59737C8.16335 5.4385 11.0028 3 14.5 3C18.6421 3 22 6.35786 22 10.5C22 10.7441 21.9883 10.9855 21.9656 11.2238C21.9883 11.4795 22 11.7381 22 12C22 15.0376 19.5376 17.5 16.5 17.5H6.5Z" fill="white" fillOpacity="0.8"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 17.5C4.01472 17.5 2 15.4853 2 13C2 10.5147 4.01472 8.5 6.5 8.5C6.82155 8.5 7.13524 8.53372 7.43763 8.59737C8.16335 5.4385 11.0028 3 14.5 3C18.6421 3 22 6.35786 22 10.5C22 10.7441 21.9883 10.9855 21.9656 11.2238C21.9883 11.4795 22 11.7381 22 12C22 15.0376 19.5376 17.5 16.5 17.5H6.5Z" fill="white" fillOpacity="0.8" /></svg>
       </div>
       <div className="floating-element cloud cloud-2">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 17.5C4.01472 17.5 2 15.4853 2 13C2 10.5147 4.01472 8.5 6.5 8.5C6.82155 8.5 7.13524 8.53372 7.43763 8.59737C8.16335 5.4385 11.0028 3 14.5 3C18.6421 3 22 6.35786 22 10.5C22 10.7441 21.9883 10.9855 21.9656 11.2238C21.9883 11.4795 22 11.7381 22 12C22 15.0376 19.5376 17.5 16.5 17.5H6.5Z" fill="white" fillOpacity="0.8"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 17.5C4.01472 17.5 2 15.4853 2 13C2 10.5147 4.01472 8.5 6.5 8.5C6.82155 8.5 7.13524 8.53372 7.43763 8.59737C8.16335 5.4385 11.0028 3 14.5 3C18.6421 3 22 6.35786 22 10.5C22 10.7441 21.9883 10.9855 21.9656 11.2238C21.9883 11.4795 22 11.7381 22 12C22 15.0376 19.5376 17.5 16.5 17.5H6.5Z" fill="white" fillOpacity="0.8" /></svg>
       </div>
       <div className="floating-element star star-1">⭐</div>
       <div className="floating-element heart heart-1">💖</div>
@@ -200,7 +256,7 @@ function App() {
       {/* Main Envelope Card */}
       <div className="envelope-wrapper">
         <div className={`envelope-card ${isAnimating ? 'animate-open' : ''}`} onClick={handleOpen}>
-          
+
           <div className="mini-letter">
             <div className="mini-letter-content">
               <div className="mini-line"></div>
@@ -214,7 +270,7 @@ function App() {
               <span>TICKET</span>
               <div className="ticket-heart">❤️</div>
             </div>
-            
+
             <div className="avatar-circle">
               <div className="avatar-inner">
                 💌
@@ -225,14 +281,14 @@ function App() {
               <h2 className="envelope-title">Thư Mời Nhỏ</h2>
               <p className="envelope-from">FROM: LỚP 2A3 💕</p>
             </div>
-            
+
             <div className="yellow-note"></div>
             <div className="blue-note"></div>
           </div>
 
           <div className="envelope-top-flap"></div>
         </div>
-        
+
         <button className={`open-btn ${isAnimating ? 'fade-out' : ''}`} onClick={handleOpen}>
           ✨ BẤM ĐỂ MỞ THƯ ✨
         </button>
