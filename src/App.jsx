@@ -11,62 +11,174 @@ function App() {
     setTimeout(() => {
       setIsOpen(true);
       setIsAnimating(false);
+      window.scrollTo(0, 0);
     }, 1500);
   };
 
   // If opened, show the detailed invitation
   if (isOpen) {
     return (
-      <div className="app-container open-state">
-        <div className="invitation-card open-animation">
-          <div className="card-header">
-            <div className="school-name">TRƯỜNG TIỂU HỌC & THCS</div>
-            <h1 className="title">Thư Mời Họp</h1>
-            <div className="subtitle">Phụ Huynh Học Sinh Cuối Năm Học</div>
+      <div className="invitation-page fade-in">
+        {/* Floating background elements for the open page */}
+        <div className="bg-star star-a">⭐</div>
+        <div className="bg-star star-b">⭐</div>
+        <div className="bg-heart heart-a">🤍</div>
+        
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-image-container">
+            <div className="hero-placeholder">
+              <span style={{fontSize: '3rem'}}>🏫</span>
+            </div>
+            <div className="hero-caption">Tập thể lớp 2A3 thân yêu</div>
           </div>
           
-          <div className="card-body">
-            <p className="greeting">
-              Kính gửi: Quý Phụ huynh học sinh lớp <strong>2A3</strong>
+          <div className="hero-text">
+            <div className="academic-year">NĂM HỌC 2024 - 2025</div>
+            <h1 className="main-heading">HỌP PHỤ HUYNH</h1>
+            <p className="hero-subtext">
+              "Sự đồng hành của Gia đình là nền tảng vững chắc cho con đường tương lai của các con!"
             </p>
-            <p style={{marginBottom: '20px', lineHeight: '1.6'}}>
-              Để tổng kết và đánh giá kết quả học tập, rèn luyện của các em học sinh trong năm học vừa qua, cũng như triển khai phương hướng nhiệm vụ năm học tới. Ban giám hiệu nhà trường và Giáo viên chủ nhiệm trân trọng kính mời Quý phụ huynh tới dự buổi họp phụ huynh cuối năm học.
-            </p>
-            
-            <div className="info-box">
-              <div className="info-item">
-                <div className="info-icon">🕒</div>
-                <div className="info-text">
-                  <span className="info-label">Thời gian</span>
-                  <span className="info-value">08:00 Sáng, Chủ Nhật</span>
-                  <div style={{fontSize: '0.9rem', color: '#636e72', marginTop: '3px'}}>Ngày 28 tháng 5 năm 2026</div>
-                </div>
-              </div>
-              
-              <div className="info-item" style={{marginTop: '15px'}}>
-                <div className="info-icon">📍</div>
-                <div className="info-text">
-                  <span className="info-label">Địa điểm</span>
-                  <span className="info-value">Phòng học lớp 2A3</span>
-                  <div style={{fontSize: '0.9rem', color: '#636e72', marginTop: '3px'}}>Tầng 2, Dãy nhà A</div>
-                </div>
-              </div>
-            </div>
-            
-            <p className="message">
-              Sự có mặt của Quý phụ huynh là niềm vinh hạnh của nhà trường và là nguồn động viên lớn mạnh cho các con.
-            </p>
-          </div>
-          
-          <div className="card-footer">
-            <div className="teacher-info">
-              <div className="teacher-label">Giáo viên chủ nhiệm</div>
-              <div className="teacher-name">Nguyễn Thị A</div>
-            </div>
-            <button className="action-btn" onClick={() => setIsOpen(false)}>
-              Đóng thư
+            <button className="scroll-down-btn" onClick={() => window.scrollTo({top: 600, behavior: 'smooth'})}>
+              Xem thêm ⬇
             </button>
           </div>
+        </section>
+
+        {/* Info Section */}
+        <section className="info-section">
+          <h2 className="section-title">Thông tin buổi họp</h2>
+          <div className="title-underline"></div>
+          
+          <div className="info-grid">
+            <div className="info-card">
+              <div className="info-icon-wrapper red-bg">📅</div>
+              <div className="info-details">
+                <span className="info-label">Thời gian</span>
+                <span className="info-value">08:00 Sáng Chủ Nhật</span>
+                <span className="info-sub">26 tháng 5 năm 2024</span>
+              </div>
+            </div>
+            
+            <div className="info-card">
+              <div className="info-icon-wrapper blue-bg">📍</div>
+              <div className="info-details">
+                <span className="info-label">Địa điểm</span>
+                <span className="info-value">Phòng D401 - Tin học 1</span>
+                <span className="info-sub">Trường Tiểu học & THCS</span>
+              </div>
+            </div>
+            
+            <div className="info-card">
+              <div className="info-icon-wrapper yellow-bg">🏫</div>
+              <div className="info-details">
+                <span className="info-label">Thành phần</span>
+                <span className="info-value">Lớp 2A3</span>
+                <span className="info-sub">Phụ huynh học sinh</span>
+              </div>
+            </div>
+            
+            <div className="info-card">
+              <div className="info-icon-wrapper green-bg">👨‍🏫</div>
+              <div className="info-details">
+                <span className="info-label">Giáo viên</span>
+                <span className="info-value">Thầy Nguyễn Việt Hùng</span>
+                <span className="info-sub">Giáo viên chủ nhiệm</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Letter Section */}
+        <section className="letter-section wavy-bg">
+          <div className="letter-card">
+            <h3 className="letter-title">Lời ngỏ từ Giáo viên Chủ nhiệm...</h3>
+            <p className="letter-greeting">Kính gửi Quý Phụ huynh,</p>
+            <p className="letter-p">
+              Một năm học nữa lại sắp trôi qua với biết bao kỷ niệm đáng nhớ. Các con đã lớn khôn hơn, học hỏi được thêm nhiều điều mới mẻ và có những trải nghiệm tuyệt vời bên thầy cô, bạn bè.
+            </p>
+            <p className="letter-p">
+              Sự tiến bộ của các con không thể thiếu đi sự quan tâm, đồng hành và sẻ chia từ phía Quý Phụ huynh trong suốt quãng thời gian vừa qua.
+            </p>
+            <p className="letter-p">
+              Trân trọng kính mời Quý Phụ huynh tới dự buổi họp tổng kết cuối năm học.
+            </p>
+            <div className="letter-signature">
+              <span className="sig-text">Trân trọng,</span>
+              <span className="sig-name">Thầy Nguyễn Việt Hùng</span>
+            </div>
+            {/* Decorative elements on letter */}
+            <div className="decor-heart top-right">💖</div>
+            <div className="decor-tape top-left"></div>
+          </div>
+        </section>
+
+        {/* Timeline Section */}
+        <section className="timeline-section">
+          <h2 className="section-title">Nội dung chính</h2>
+          <div className="title-underline"></div>
+          
+          <div className="timeline">
+            <div className="timeline-item left">
+              <div className="timeline-content">
+                <h4>Báo cáo học tập</h4>
+                <p>Tổng kết kết quả học tập, rèn luyện của các con trong năm học vừa qua.</p>
+              </div>
+              <div className="timeline-dot">📚</div>
+            </div>
+            
+            <div className="timeline-item right">
+              <div className="timeline-dot">🎯</div>
+              <div className="timeline-content">
+                <h4>Trao đổi định hướng</h4>
+                <p>Kế hoạch, phương hướng cho năm học tới. Cùng thảo luận phương pháp giúp các con phát triển.</p>
+              </div>
+            </div>
+            
+            <div className="timeline-item left">
+              <div className="timeline-content">
+                <h4>Giao lưu phụ huynh</h4>
+                <p>Lắng nghe tâm tư, nguyện vọng từ Phụ huynh để thắt chặt sợi dây liên kết.</p>
+              </div>
+              <div className="timeline-dot">🤝</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Form Section */}
+        <section className="form-section">
+          <div className="form-card">
+            <div className="form-avatar">👨‍👩‍👧‍👦</div>
+            <h3 className="form-title">❤️ Xác nhận tham gia</h3>
+            <p className="form-subtitle">Rất mong sự hiện diện của Quý Phụ huynh!</p>
+            
+            <div className="form-group">
+              <label>Tên phụ huynh</label>
+              <input type="text" placeholder="Nhập tên của Quý vị..." />
+            </div>
+            
+            <div className="form-group">
+              <label>Sự kiện tham gia buổi họp</label>
+              <div className="radio-group">
+                <label className="radio-btn">
+                  <input type="radio" name="attendance" defaultChecked />
+                  <span className="radio-custom green">✅ Tham gia</span>
+                </label>
+                <label className="radio-btn">
+                  <input type="radio" name="attendance" />
+                  <span className="radio-custom red">❌ Không tham gia</span>
+                </label>
+              </div>
+            </div>
+            
+            <button className="submit-btn" onClick={() => alert('Đã gửi phản hồi thành công!')}>
+              Gửi phản hồi ✨
+            </button>
+          </div>
+        </section>
+        
+        <div className="footer-credits">
+          Made with ❤️ for Class 2A3
         </div>
       </div>
     );
